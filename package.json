@@ -1,21 +1,28 @@
 {
-    "name": "SOL-EVM-token-bridge",
-    "version": "1.0.0",
-    "type": "module",
-    "main": "index.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "transfer": "npx tsx src/token-transfer.ts"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "description": "",
-    "dependencies": {
-      "@wormhole-foundation/sdk": "^0.10.9",
-      "dotenv": "^16.4.5"
-    },
-    "devDependencies": {
-      "tsx": "^4.19.0"
-    }
+  "name": "evm-solana-wormhole-token-bridge",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "transfer": "npx tsx src/token-transfer.ts",
+    "register": "npx tsx src/create-wrapped-token.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@ethersproject/hardware-wallets": "^5.7.0",
+    "@ledgerhq/hw-transport-webusb": "^6.29.4",
+    "@solana/wallet-adapter-ledger": "^0.9.25",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/web3.js": "^1.95.5",
+    "@wormhole-foundation/sdk": "^0.10.9",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.4"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0"
   }
+}
