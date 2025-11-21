@@ -9,4 +9,5 @@ dist/
 .turbo/
 .next/
 .cache/
+evm-solana-wormhole-token-bridge/
 
