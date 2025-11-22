@@ -9,6 +9,7 @@ type NetworkType = "Mainnet" | "Testnet";
 type ChainName = "Solana" | "Ethereum" | "Terra" | "Bsc" | "Polygon" | "Avalanche" | "Oasis" | "Algorand" | "Aurora" | "Fantom" | "Karura" | "Acala" | "Klaytn" | "Celo" | "Near" | "Moonbeam" | "Neon" | "Terra2" | "Injective" | "Osmosis" | "Sui" | "Aptos" | "Arbitrum" | "Optimism" | "Gnosis" | "Pythnet" | "Xpla" | "Btc" | "Base" | "Sei" | "Rootstock" | "Scroll" | "Mantle" | "Blast" | "Xlayer" | "Linea" | "Berachain" | "Seievm" | "Snaxchain" | "Wormchain" | "Cosmoshub" | "Evmos" | "Kujira" | "Neutron" | "Celestia" | "Stargaze" | "Seda" | "Dymension" | "Provenance" | "Sepolia" | "ArbitrumSepolia" | "BaseSepolia" | "OptimismSepolia" | "Holesky" | "PolygonSepolia";
 
 async function createWrap(networkType: NetworkType, origChainName: ChainName, tokenAddress: string, destChainName: ChainName, recoverTxId: undefined | string): Promise<any> {
+    console.log("Starting attestation with", { networkType, origChainName, tokenAddress, destChainName, recoverTxId });
     try {
         const wh = await wormhole(networkType, [evm, solana]);
 
@@ -26,6 +27,9 @@ async function createWrap(networkType: NetworkType, origChainName: ChainName, to
         // const chain = "Sepolia";
         const destChain = wh.getChain(destChainName);
         const { signer } = await getSigner(destChain);
+        const signerAddress = signer.address();
+        console.log("Destination signer address:", signerAddress);
+        await logSignerBalance(signer);
         // grab a ref to the token bridge
         const tb = await destChain.getTokenBridge();
         try {
@@ -91,6 +95,22 @@ async function createWrap(networkType: NetworkType, origChainName: ChainName, to
         console.log("Wrapped: ", await waitForIt());
     } catch (e) {
         console.error(e);
+    }
+}
+
+async function logSignerBalance(signer: unknown) {
+    const account = signer as { getBalance?: () => Promise<bigint | { toString?: () => string }> };
+    if (typeof account.getBalance !== "function") {
+        console.log("Balance check skipped for this platform");
+        return;
+    }
+
+    try {
+        const balance = await account.getBalance();
+        const balanceStr = typeof balance === "bigint" ? balance.toString() : balance?.toString?.();
+        console.log("Signer balance:", balanceStr);
+    } catch (err) {
+        console.error("Unable to fetch signer balance:", err);
     }
 }
 
