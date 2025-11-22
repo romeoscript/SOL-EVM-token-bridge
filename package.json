@@ -5,8 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "transfer": "npx tsx src/token-transfer.ts",
-    "register": "npx tsx src/create-wrapped-token.ts"
+    "bridge": "npx tsx src/core/token-transfer.ts",
+    "register": "npx tsx src/core/create-wrapped-token.ts",
+    "create-token": "npx tsx src/token-creation/create-spl-token.ts",
+    "usdc:setup": "npx tsx src/usdc/setup-usdc.ts",
+    "usdc:check-solana": "npx tsx src/usdc/check-usdc-balance.ts",
+    "usdc:check-sepolia": "npx tsx src/usdc/check-sepolia-usdc.ts",
+    "check-balance": "npx tsx src/utils/check-balance.ts",
+    "check-token": "npx tsx src/utils/check-token-balance.ts",
+    "check-registration": "npx tsx src/utils/check-token-registration.ts",
+    "list-chains": "npx tsx src/utils/list-chains.ts",
+    "list-tokens": "npx tsx src/utils/list-registered-tokens.ts",
+    "web:dev": "node server.cjs",
+    "web:open": "node server.cjs & sleep 2 && open http://localhost:3000"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +26,11 @@
   "dependencies": {
     "@ethersproject/hardware-wallets": "^5.7.0",
     "@ledgerhq/hw-transport-webusb": "^6.29.4",
+    "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
+    "@metaplex-foundation/umi": "^1.4.1",
+    "@metaplex-foundation/umi-bundle-defaults": "^1.4.1",
+    "@metaplex-foundation/umi-web3js-adapters": "^1.4.1",
+    "@solana/spl-token": "^0.4.14",
     "@solana/wallet-adapter-ledger": "^0.9.25",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/web3.js": "^1.95.5",
@@ -23,6 +39,7 @@
     "ethers": "^6.13.4"
   },
   "devDependencies": {
+    "@types/bs58": "^4.0.4",
     "tsx": "^4.19.0"
   }
 }

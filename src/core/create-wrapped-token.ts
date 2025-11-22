@@ -33,12 +33,14 @@ async function createWrap(networkType: NetworkType, origChainName: ChainName, to
         // grab a ref to the token bridge
         const tb = await destChain.getTokenBridge();
         try {
-        // try to get the wrapped version, an error here likely means
-        // its not been attested
+            // try to get the wrapped version, an error here likely means
+            // its not been attested
             const wrapped = await tb.getWrappedAsset(token);
             console.log("Already wrapped", wrapped);
-          return { destChainName, address: wrapped };
-        } catch (e) {}
+            return { destChainName, address: wrapped };
+        } catch (e) {
+            console.log("getWrappedAsset failed (expected if not yet registered):", e);
+        }
 
         // Note: if the VAA is not produced before the attempt to retrieve it times out
         // you should set this value to the txid logged in the previous run
